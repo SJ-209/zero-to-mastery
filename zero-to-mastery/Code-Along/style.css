@@ -1,0 +1,61 @@
+ /*Selector {
+    Property: valu;
+ }*/
+
+*{ 
+    text-align: right;
+}
+
+ body {
+    background-image: url(background.jpg);
+    background-size: cover;
+ }
+
+  p {
+    color:#277554;
+    text-align: center;
+    border: 5px solid rgba(65, 131, 126, 1);
+    cursor: pointer;
+ }
+
+ p {
+    line-height: 50px;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 110%;
+    font-family: 'overpass';
+    color:#41837E ;
+ }
+
+img {
+    float: right;
+}
+footer {
+    clear: both;
+    text-align: center;
+}
+
+ p {
+    color: #AA6A39;
+ }
+
+ li {
+    list-style: none;
+    display: inline-block;
+ }
+
+ .webtext {
+    border: 5px dashed green;
+ }
+
+ .active {
+    color: red;
+ }
+
+ #div {
+    background:rgba(0, 0, 255, 0.2);
+ }
+
+ #div2 {
+    background:rgba(255, 0, 0, 0.2);
+ }
