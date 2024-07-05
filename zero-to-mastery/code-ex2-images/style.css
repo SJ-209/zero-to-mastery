@@ -25,6 +25,8 @@ body {
     margin: 0px;
 }
 
+/*container for images alligned to the center*/
+
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -41,6 +43,8 @@ h1 {
     text-decoration: underline;
     
 }
+
+/*view gallery button*/
 
 .button {
     display: flex;
@@ -60,6 +64,8 @@ button {
     z-index: 0;
     border-radius: 10px;
 }    
+
+/* Hover button (change to a hand)*/
 
 button:hover{
     transform: scale(1.1);
@@ -85,6 +91,8 @@ h4 {
     margin-top: 10px;
     opacity: .5;
 }
+
+/*individual images*/
 
 img {
     width: 350px;
