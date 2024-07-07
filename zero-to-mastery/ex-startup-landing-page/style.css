@@ -21,9 +21,9 @@ h1, strong {
   color: transparent;
   font-size: 3rem;
   margin-top: 250px;
-  text-decoration: underline;
 }
 
+/*short line above find out more button*/
 
 hr {
   margin: 20px auto;
@@ -56,7 +56,4 @@ hr {
   border-width: 2px;
 }
 
-.btn-xl {
-  
-}
 
