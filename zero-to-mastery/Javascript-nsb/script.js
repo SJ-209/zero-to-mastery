@@ -1,6 +1,22 @@
 var button = document.getElementById("enter");
 var input = document.getElementById("userinput");
 var ul = document.querySelector("ul");
+var deleteBtns = document.getElementsByClassName("delete");
+var items = ul.getElementsByTagName("li");
+
+//add event listener to first 6 btns in HTML file//
+
+for(var i = 0; i < deleteBtns.length; i++){
+	deleteBtns[i].addEventListener("click", removeParent, false);
+}
+
+
+////from StackOverflow://
+
+function removeParent(evt) {
+	evt.target.removeEventListener("click", removeParent, false);
+	evt.target.parentNode.remove();
+  }
 
 function inputLength() {
 	return input.value.length;
@@ -31,8 +47,10 @@ for(var i=0; i<list.length; i++){
 list[i].addEventListener("click", liClick);
 }
 function liClick(){
-	this.classList.toggle("done");
+	this.classList.toggle("done");	
 }
+
+
 
 button.addEventListener("click", addListAfterClick);
 
