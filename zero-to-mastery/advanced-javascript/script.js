@@ -1,8 +1,32 @@
-function isUserValid(bool) {
-    return bool;
+var object1 = {value: 10};
+var object2 = object1;
+var object3 = {value: 10};
+
+const object4 = {
+    a: function() {
+        console.log(this);
+    }
 }
 
-var answer = isUserValid(true) ? "You may enter" : "Access Denied";
+class player{
+    constructor(name, type) {
+        console.log(this);
+        this.name = name;
+        this.type = type;
+    }
+    introduce() {
+        console.logs(`Hi I am ${this.name}, Im a ${this.type}`);
+    }
+}
 
-var automatedAnswer =
-    "Your account # is" + ( isUserValid(false) ? "1234" : "not available");
+class Wizard extends player {
+    constructor(name, type) {
+        super(name, type)
+    }
+    play(){
+        console.log(`WEEEEE Im a ${this.type}`);
+    }
+}
+
+const wizards = new Wizard('Shelly', 'Healer');
+const wizards = new Wizard('Shawn', 'Dark Magic');
