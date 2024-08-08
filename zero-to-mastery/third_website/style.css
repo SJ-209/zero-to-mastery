@@ -1,0 +1,141 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Lora, 'helvetics', sans-serif;
+    font-weight: 100;
+    font-style: italic;
+    color: rgb(250, 230, 217);
+    text-decoration: none;
+}
+
+/* Main Body color and image layout */
+
+body, html {
+    overflow-x: hidden;
+   background-color: #000000;
+    width: 1679px;
+    height: 952px;
+    
+}
+
+/* Header layout */
+
+.hero-header{
+    background-color: #000000;
+}
+
+
+
+header {
+    position: relative;
+    padding: 50px;
+    background-color: #000000;
+    width: 100%;
+    z-index: 9999;
+}
+
+/* Navbar and links layout making sure they are centred with space around*/
+
+nav ul {
+    margin-left: 650px;
+    margin-right: 650px;
+    display:flex ;
+    justify-content: space-between;
+}
+
+nav .navlinks {
+    list-style-type: none;
+}
+
+nav .navlinks .li {
+    display: inline-block;
+}
+
+nav a {
+    padding: 20px;
+}
+
+nav a:hover {
+    color: #c28b1f;
+  }
+
+/* Banner 1 Img layout. The top is positioned behind the header */
+
+.container {
+    position: relative;
+  text-align: center;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.banner img{
+    position: relative;
+    width: 1679px;
+    height: 988px;
+    margin-top: -55px;
+}
+
+.title {
+   position: absolute;
+   top: 30px;
+   width: 100%;
+   text-align: center;
+   font-size: 67px;
+   line-height: 1em;
+   letter-spacing: 0.15em;
+}
+
+.heading {
+    position: absolute;
+    top: 125px; 
+    width: 100%;
+    text-align: center;
+}
+
+/* Banner img 2 layout */
+
+.container2 {
+    position: relative;
+  text-align: center;
+}
+
+.banner2 {
+    position: relative;
+    width: 100%;
+}
+
+.banner2 img {
+    position: absolute;
+    width: 1479px;
+    height: 642px;
+    left: 100px;
+}
+
+/* Scroll button */
+
+.btn {
+    opacity: .4;
+    position: absolute;
+    justify-content: center;
+    width: 50px;
+    left: 100px;
+    z-index: 999;
+}
+
+.btn {
+    transition: var(--trns, opacity .5s ease 0s);
+}
+
+/* Scroll bar test */
+
+section {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height: 100vh;
+}
