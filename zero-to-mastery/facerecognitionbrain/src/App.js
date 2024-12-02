@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <div>...</div>
-      <ParticlesBg className='particles' color='#3ca9d1' blur='5' num={130} density type="cobweb" bg={true} />
+      <ParticlesBg className='particles' color='#3ca9d1' blur='5' num={150} density type="cobweb" bg={true} />
      <Navigation />
      <Logo />
      <Rank />
