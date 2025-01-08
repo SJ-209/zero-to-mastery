@@ -11,5 +11,12 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "async-each": "^1.0.6",
+    "body-parser": "^1.20.3",
+    "chokidar": "^4.0.3",
+    "express": "^4.21.2",
+    "semver": "^7.6.3"
+  }
 }
