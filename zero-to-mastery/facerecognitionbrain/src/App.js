@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import Particles from 'react-particles-js'; 
 import ParticlesBg from 'particles-bg'
-// import Clarifai from 'clarifai';
+import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Navigation from './components/Navigation/Navigation';
 import Signin from './components/Signin/Signin';
@@ -12,49 +12,50 @@ import Rank from './components/Rank/Rank';
 import './App.css';
 
 
-// const app = new Clarifai.App({
-//  apiKey: 'e3aee845766948ac9260f613e27189cf'
-// });
 
-    const returnClarifiRequestOptions = (imageUrl) => {
-        // Your PAT (Personal Access Token) can be found in the Account's Security section
-        const PAT = '79a63d3983084df98b1c50920769890c';
-        // Specify the correct user_id/app_id pairings
-        // Since you're making inferences outside your app's scope
-        const USER_ID = 'clarifai';       
-        const APP_ID = 'main';
-        // Change these to whatever model and image URL you want to use  
-        const IMAGE_URL = imageUrl;
+const app = new Clarifai.App({
+ apiKey: 'e3aee845766948ac9260f613e27189cf'
+});
+
+    // const returnClarifiRequestOptions = (imageUrl) => {
+    //     // Your PAT (Personal Access Token) can be found in the Account's Security section
+    //     const PAT = '79a63d3983084df98b1c50920769890c';
+    //     // Specify the correct user_id/app_id pairings
+    //     // Since you're making inferences outside your app's scope
+    //     const USER_ID = 'clarifai';       
+    //     const APP_ID = 'main';
+    //     // Change these to whatever model and image URL you want to use  
+    //     const IMAGE_URL = imageUrl;
     
-        const raw = JSON.stringify({
-            "user_app_id": {
-                "user_id": USER_ID,
-                "app_id": APP_ID
-            },
-            "inputs": [
-                {
-                    "data": {
-                        "image": {
-                            "url": IMAGE_URL
-                        }
-                    }
-                }
-            ]
-        });
+    //     const raw = JSON.stringify({
+    //         "user_app_id": {
+    //             "user_id": USER_ID,
+    //             "app_id": APP_ID
+    //         },
+    //         "inputs": [
+    //             {
+    //                 "data": {
+    //                     "image": {
+    //                         "url": IMAGE_URL
+    //                     }
+    //                 }
+    //             }
+    //         ]
+    //     });
     
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Key ' + PAT,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': ' ',
-            },
-            body: raw
-        };
+    //     const requestOptions = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Authorization': 'Key ' + PAT,
+    //             'Content-Type': 'application/json',
+    //             'Access-Control-Allow-Origin': ' ',
+    //         },
+    //         body: raw
+    //     };
     
-        return requestOptions
-    };
+    //     return requestOptions
+    // };
 
 class App extends Component {
   constructor(){
@@ -64,8 +65,25 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      isSignedIn: false 
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+    }})
   }
 
   calculateFaceLocation = (data) => {
@@ -91,18 +109,34 @@ class App extends Component {
   }
 
   onButtonSubmit = () => {
-      this.setState({imageUrl:this.state.input});
-      //app.models.predict('face-detection',this.state.input)
-      
-      fetch("https://api.clarifai.com/v2/models/face-detection/outputs" + returnClarifiRequestOptions(this.state.input))
-          .then(response => response.json())
-          .then(response => {this.displayFacebox( 
-            this.state.calculateFaceLocation(response));
-            console.log('hi', response)
-              
+    this.setState({imageUrl: this.state.input});
+   
+    // HEADS UP! Sometimes the Clarifai Models can be down or not working as they are constantly getting updated.
+    // A good way to check if the model you are using is up, is to check them on the clarifai website. For example,
+    // for the Face Detect Mode: https://www.clarifai.com/models/face-detection
+    // If that isn't working, then that means you will have to wait until their servers are back up. 
+
+    app.models.predict('face-detection', this.state.input)
+      .then(response => {
+        console.log('hi', response)
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
           })
-          .catch(err => console.log('Error:', err));
-    }
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count}))
+            })
+
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      })
+      .catch(err => console.log(err));
+  }
 
   onRouteChange = (route) => {
     if (route === 'signout') {
@@ -124,7 +158,7 @@ class App extends Component {
             { route === 'home'
               ? <div>
                   <Logo />
-                  <Rank />
+                  <Rank name={this.state.user.name} entries={this.state.user.entries} />
                   <ImageLinkForm 
                     onInputChange={this.onInputChange} 
                     onButtonSubmit={this.onButtonSubmit}
@@ -133,8 +167,8 @@ class App extends Component {
                 </div>
               : (
                   this.state.route === 'signin'
-                  ? <Signin onRouteChange={this.onRouteChange}/>
-                  : <Register onRouteChange={this.onRouteChange}/>
+                  ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+                  : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
               )
             }
         </div>
