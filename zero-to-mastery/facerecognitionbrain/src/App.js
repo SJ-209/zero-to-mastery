@@ -14,6 +14,21 @@ const USER_ID = 'clarifai';
 const APP_ID = 'main';
 const MODEL_ID = 'face-detection';
 
+const intialState = {
+  input: '',
+      imageUrl: '',
+      box: {},
+      route: 'signin',
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
+}
+
 class App extends Component {
   constructor() {
     super();
@@ -115,7 +130,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState({isSignedIn: intialState})
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
@@ -126,7 +141,7 @@ class App extends Component {
     const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <ParticlesBg type="fountain" bg={true} />
+        <ParticlesBg color="#FFD580" num={200} type="cobweb" bg={true} />
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         { route === 'home'
           ? <div>
